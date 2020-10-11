@@ -1,8 +1,9 @@
-from django.shortcuts import render,get_object_or_404
+from django.shortcuts import render,get_object_or_404, redirect
 from django.http import HttpResponse
-from django.template import Context, loader
+from django.template import Context, loader, RequestContext
 
 from blog.models import Post
+from blog.forms import PostForm
 
 # Create your views here.
 def encode_url(url):
@@ -31,3 +32,15 @@ def post(request, post_url):
     t = loader.get_template('blog/post.html')
     c = Context({'single_post':single_post, })
     return HttpResponse(t.render(c))
+
+def add_post(request):
+    if request.method == 'POST':
+        form = PostForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save(commit=True)
+            return redirect(index)
+        else:
+            print(form.errors)
+    else:
+        form = PostForm()
+    return render(request, 'blog/add_post.html', {'form':form})

@@ -1,2 +1,6 @@
 Django==1.10.3
+django-forms-bootstrap==3.0.1
+django-uuslug==1.1.8
 Pillow==7.2.0
+python-slugify==4.0.1
+text-unidecode==1.3
